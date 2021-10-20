@@ -15,21 +15,22 @@
       >
         <draggable
           :list="items"
+          class="dropzone"
           handle=".handle"
           :group="{ name: 'documents', pull: true }"
           ghost-class="ghost-item"
           chosen-class="chosen-item"
           drag-class="drag-item"
           animation="220"
+          :remove-clone-on-hide="false"
+          @start="onStart"
         >
-          <transition-group name="list">
-            <PxDocumentListItem
-              v-for="item in computedItems"
-              :item="item"
-              :key="`item_${item.id}`"
-              @remove="onRemove"
-            />
-          </transition-group>
+          <PxDocumentListItem
+            v-for="item in computedItems"
+            :item="item"
+            :key="`item_${item.id}`"
+            @remove="onRemove"
+          />
         </draggable>
       </div>
     </transition-group>
@@ -52,7 +53,11 @@ export default {
     query: {
       type: String,
       default: ''
-    }
+    },
+    noCategory: {
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return {
@@ -72,6 +77,10 @@ export default {
   },
   computed: {
     showCategory () {
+      if (this.noCategory) {
+        return false
+      }
+
       if (!this.query) {
         return true
       }
@@ -88,6 +97,9 @@ export default {
     }
   },
   methods: {
+    onStart({ clone }) {
+      clone.classList.add('draggable')
+    },
     onRemove(removeItem) {
       const index = this.items.findIndex(item => item.id === removeItem.id)
       if (index !== -1) {
@@ -97,3 +109,10 @@ export default {
   }
 }
 </script>
+
+
+<style>
+.dropzone {
+  min-height: 20px;
+}
+</style>

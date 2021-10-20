@@ -1,15 +1,18 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import ITEMS from '../data/items'
+import CATEGORIES from '../data/categories'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    movedItem: undefined
+    items: ITEMS,
+    categories: CATEGORIES
   },
   mutations: {
-    setMovedItem(state, value) {
-      state.movedItem = value
+    addItem(state, data) {
+      state.items.push(data)
     }
   },
   actions: {

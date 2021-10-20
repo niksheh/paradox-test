@@ -1,6 +1,6 @@
 <template>
-  <div class="border-grey ps-3 pe-1">
-    <div class="d-flex align-items-center justify-content-between">
+  <div class="border-grey ps-3 pe-1 ">
+    <div class="item-layout d-flex align-items-center justify-content-between">
       <div v-if="$slots.toggle" class="me-2">
         <slot name="toggle" />
       </div>

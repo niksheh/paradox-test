@@ -49,6 +49,10 @@
   color: #0066FF;
   height: 5px;
 
+  .item-layout {
+    opacity: 0;
+  }
+
   .overlay {
     background-color: none !important;
   }
@@ -63,11 +67,17 @@
 }
 
 .drag-item {
-  opacity: 1;
+  ::shadow {
+    color: rgba(0, 102, 255, 0.70) !important;
+  }
   background-color: white;
   box-shadow: 2px 2px 14px rgba(0, 102, 255, 0.70) !important;
 }
 
+.draggable {
+  display: block !important;
+  opacity: 0.5;
+}
 
 .btn-outline-small {
   border: 1px solid #D3D8DF !important;

@@ -45,6 +45,7 @@
         chosen-class="chosen-item"
         drag-class="drag-item"
         animation="220"
+        :set-data="setData"
       >
         <transition-group>
           <PxSectionListItem
@@ -58,24 +59,18 @@
       </draggable>
     </div>
     <div class="mt-3">
-      <draggable
-        :list="itemsWithoutCategory"
-        handle=".handle"
-        :group="{ name: 'documents', pull: true }"
-        ghost-class="ghost-item"
-        chosen-class="chosen-item"
-        drag-class="drag-item"
-        animation="220"
-      >
-        <transition-group name="list">
-          <PxDocumentListItem
-            v-for="item in itemsWithoutCategory"
-            :item="item"
-            :key="`item_no_cat_${item.id}`"
-            @remove="onRemoveItem"
-          />
-        </transition-group>
-      </draggable>
+
+
+      <transition-group>
+        <PxSectionListItem
+          v-for="category in itemsWithoutCategory"
+          :category="category"
+          :query="query"
+          :key="`category_${category.id}`"
+          no-category
+          @remove="onRemoveSection"
+        />
+      </transition-group>
     </div>
   </div>
 </template>
@@ -83,20 +78,16 @@
 <script>
 import PxButton from '@/components/PxButton'
 import BookmarkIcon from '@/components/icons/BookmarkIcon'
-import PxDocumentListItem from '@/components/PxDocumentListItem'
 import PxSearchInput from '@/components/PxSearchInput'
 import PxSectionListItem from '@/components/PxSectionListItem'
-import ITEMS from '../../data/items'
-import CATEGORIES from '../../data/categories'
 import PlusIcon from '@/components/icons/PlusIcon'
 import draggable from 'vuedraggable'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Documents',
   data () {
     return {
-      items: ITEMS,
-      categories: CATEGORIES,
       query: null,
       dragging: false,
       itemsWithoutCategory: undefined
@@ -105,7 +96,6 @@ export default {
   components: {
     PxSectionListItem,
     PxSearchInput,
-    PxDocumentListItem,
     PxButton,
     PlusIcon,
     BookmarkIcon,
@@ -118,6 +108,7 @@ export default {
     computedItems: 'getItemsWithoutCategory'
   },
   computed: {
+    ...mapState(['items', 'categories']),
     isEmpty () {
       return !this.computedItems.length && !this.search('categories').length
     },
@@ -135,12 +126,6 @@ export default {
     }
   },
   methods: {
-    onRemoveItem (removeItem) {
-      const index = this.itemsWithoutCategory.findIndex(item => item.id === removeItem.id)
-      if (index !== -1) {
-        this.itemsWithoutCategory.splice(index, 1)
-      }
-    },
     onRemoveSection (removeItem) {
       const index = this.categories.findIndex(category => category.id === removeItem.id)
       if (index !== -1) {
@@ -148,7 +133,8 @@ export default {
       }
     },
     getItemsWithoutCategory () {
-      this.itemsWithoutCategory = this.computedItems.filter(item => !item.categoryId)
+      const items = this.computedItems.filter(item => !item.categoryId)
+      this.itemsWithoutCategory = [{ items }]
     },
     search (entity) {
       if (!this.query) {
@@ -156,7 +142,10 @@ export default {
       }
       const condition = new RegExp(this.query, 'i')
       return this[entity].filter(item => condition.test(item.name))
-    }
+    },
+    setData (dataTransfer) {
+      dataTransfer.setDragImage(document.createElement('div'), 0, 0);
+    },
   }
 }
 </script>
