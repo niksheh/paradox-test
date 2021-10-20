@@ -42,6 +42,33 @@
   }
 }
 
+.ghost-item {
+  opacity: 1;
+  border-top: 5px solid #0066FF;
+  background-color: #0066FF !important;
+  color: #0066FF;
+  height: 5px;
+
+  .overlay {
+    background-color: none !important;
+  }
+
+  .action-icon-magenta {
+    fill: #0066FF;
+  }
+
+  .action-icon {
+    fill: #0066FF;
+  }
+}
+
+.drag-item {
+  opacity: 1;
+  background-color: white;
+  box-shadow: 2px 2px 14px rgba(0, 102, 255, 0.70) !important;
+}
+
+
 .btn-outline-small {
   border: 1px solid #D3D8DF !important;
   width: 1.4rem !important;
@@ -54,6 +81,17 @@
 .btn-outline-icon {
   border: none !important;
   padding: .4rem !important;
+
+  &:hover {
+    .action-icon {
+      fill: #0066FF !important;
+    }
+
+    .action-icon-magenta {
+      fill: #e02881 !important;
+    }
+  }
+
 }
 
 .btn-circle {
@@ -95,8 +133,12 @@
     position: absolute;
     left: 0;
     top: 0;
-    //background:linear-gradient(90deg, transparent 10px, white);
-    background: linear-gradient(to right, transparent 95%, white 100%);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 95%, #fff 100%);
+    background: -moz-linear-gradient(to right, rgba(255, 255, 255, 0) 95%, #fff 100%);
+    background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0) 95%, #fff 100%);
+    background: -o-linear-gradient(to right, rgba(255, 255, 255, 0) 95%, #fff 100%);
+    background: -webkit-linear-gradient(to right, rgba(255, 255, 255, 0) 95%, #fff 100%);
+
   }
 }
 

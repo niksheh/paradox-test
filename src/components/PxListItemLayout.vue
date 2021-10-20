@@ -10,7 +10,7 @@
       <div class="d-flex align-items-center ms-4">
         <div class="me-1">
           <PxButton type="icon">
-            <pencil-icon />
+            <pencil-icon class="action-icon" />
           </PxButton>
         </div>
         <div class="me-1">
@@ -18,11 +18,13 @@
             type="icon"
             @click="$emit('remove')"
           >
-            <TrashBinIcon />
+            <TrashBinIcon class="action-icon-magenta" />
           </PxButton>
         </div>
         <div class="handle">
-          <UpDownArrowIcon/>
+          <PxButton type="icon">
+            <UpDownArrowIcon class="action-icon" />
+          </PxButton>
         </div>
       </div>
     </div>

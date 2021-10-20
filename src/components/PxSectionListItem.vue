@@ -1,32 +1,32 @@
 <template>
-  <div
-    @dragenter="onDragenter"
-    @dragleave="onDragleave"
-  >
-    <pre>{{ onDrag }}</pre>
+  <div>
     <transition-group name="list">
       <PxCategoryItem
         v-if="showCategory"
         @toggle="isActive = !isActive"
         :item="category"
-        :key="`category_${category.categoryId}`"
+        :key="`category_${category.id}`"
         @remove="$emit('remove', category)"
       />
       <div
         v-if="isActive"
         class="ms-4"
-        :key="`items_block_${category.categoryId}`"
+        :key="`items_block_${category.id}`"
       >
         <draggable
           :list="items"
           handle=".handle"
           :group="{ name: 'documents', pull: true }"
+          ghost-class="ghost-item"
+          chosen-class="chosen-item"
+          drag-class="drag-item"
+          animation="220"
         >
           <transition-group name="list">
             <PxDocumentListItem
               v-for="item in computedItems"
               :item="item"
-              :key="`item_${item.itemId}`"
+              :key="`item_${item.id}`"
               @remove="onRemove"
             />
           </transition-group>
@@ -88,14 +88,8 @@ export default {
     }
   },
   methods: {
-    onDragenter() {
-      this.onDrag = true
-    },
-    onDragleave() {
-      this.onDrag = false
-    },
     onRemove(removeItem) {
-      const index = this.items.findIndex(item => item.itemId === removeItem.itemId)
+      const index = this.items.findIndex(item => item.id === removeItem.id)
       if (index !== -1) {
         this.items.splice(index, 1)
       }

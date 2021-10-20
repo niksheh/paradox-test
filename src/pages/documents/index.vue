@@ -39,14 +39,19 @@
       </transition>
       <draggable
         v-model="categories"
+        handle=".handle"
         group="section"
+        ghost-class="ghost-item"
+        chosen-class="chosen-item"
+        drag-class="drag-item"
+        animation="220"
       >
         <transition-group>
           <PxSectionListItem
             v-for="category in computedCategories"
             :category="category"
             :query="query"
-            :key="`category_${category.categoryId}`"
+            :key="`category_${category.id}`"
             @remove="onRemoveSection"
           />
         </transition-group>
@@ -57,12 +62,16 @@
         :list="itemsWithoutCategory"
         handle=".handle"
         :group="{ name: 'documents', pull: true }"
+        ghost-class="ghost-item"
+        chosen-class="chosen-item"
+        drag-class="drag-item"
+        animation="220"
       >
         <transition-group name="list">
           <PxDocumentListItem
             v-for="item in itemsWithoutCategory"
             :item="item"
-            :key="`item_no_cat_${item.itemId}`"
+            :key="`item_no_cat_${item.id}`"
             @remove="onRemoveItem"
           />
         </transition-group>
@@ -84,7 +93,7 @@ import draggable from 'vuedraggable'
 
 export default {
   name: 'Documents',
-  data() {
+  data () {
     return {
       items: ITEMS,
       categories: CATEGORIES,
@@ -110,11 +119,11 @@ export default {
   },
   computed: {
     isEmpty () {
-      return !this.computedItems.length && !this.computedCategories.length
+      return !this.computedItems.length && !this.search('categories').length
     },
     computedCategories () {
       return this.categories.map(category => {
-        const items = this.computedItems.filter(item => item.categoryId === category.categoryId)
+        const items = this.computedItems.filter(item => item.categoryId === category.id)
         return {
           ...category,
           items
@@ -123,22 +132,22 @@ export default {
     },
     computedItems () {
       return this.search('items')
-    },
+    }
   },
   methods: {
-    onRemoveItem(removeItem) {
-      const index = this.itemsWithoutCategory.findIndex(item => item.itemId === removeItem.itemId)
+    onRemoveItem (removeItem) {
+      const index = this.itemsWithoutCategory.findIndex(item => item.id === removeItem.id)
       if (index !== -1) {
         this.itemsWithoutCategory.splice(index, 1)
       }
     },
-    onRemoveSection(removeItem) {
-      const index = this.categories.findIndex(category => category.categoryId === removeItem.categoryId)
+    onRemoveSection (removeItem) {
+      const index = this.categories.findIndex(category => category.id === removeItem.id)
       if (index !== -1) {
         this.categories.splice(index, 1)
       }
     },
-    getItemsWithoutCategory() {
+    getItemsWithoutCategory () {
       this.itemsWithoutCategory = this.computedItems.filter(item => !item.categoryId)
     },
     search (entity) {
