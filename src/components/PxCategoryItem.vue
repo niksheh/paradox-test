@@ -1,6 +1,6 @@
 <template>
   <PxListItemLayout
-    class="py-2"
+    class="py-2 hide-item"
     @remove="$emit('remove')"
   >
     <template #toggle>
@@ -41,21 +41,29 @@ export default {
     item: {
       type: Object,
       default: () => ({})
+    },
+    isNoItems: {
+      type: Boolean,
+      default: false
     }
   },
-  data() {
+  data () {
     return {
       isToggle: false
     }
   },
   computed: {
     itemStyle () {
-      const degree = this.isToggle ? 180 : 0;
+      const degree = this.isToggle ? 0 : 180
       return { transform: `rotate(${degree}deg)` }
     }
   },
   methods: {
     toggle () {
+      if (!this.isNoItems) {
+        return
+      }
+
       this.isToggle = !this.isToggle
       this.$emit('toggle')
     }

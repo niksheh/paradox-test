@@ -42,43 +42,6 @@
   }
 }
 
-.ghost-item {
-  opacity: 1;
-  border-top: 5px solid #0066FF;
-  background-color: #0066FF !important;
-  color: #0066FF;
-  height: 5px;
-
-  .item-layout {
-    opacity: 0;
-  }
-
-  .overlay {
-    background-color: none !important;
-  }
-
-  .action-icon-magenta {
-    fill: #0066FF;
-  }
-
-  .action-icon {
-    fill: #0066FF;
-  }
-}
-
-.drag-item {
-  ::shadow {
-    color: rgba(0, 102, 255, 0.70) !important;
-  }
-  background-color: white;
-  box-shadow: 2px 2px 14px rgba(0, 102, 255, 0.70) !important;
-}
-
-.draggable {
-  display: block !important;
-  opacity: 0.5;
-}
-
 .btn-outline-small {
   border: 1px solid #D3D8DF !important;
   width: 1.4rem !important;
@@ -109,6 +72,39 @@
   height: 2rem;
 }
 
+.ghost-item {
+  border-top: 5px solid #0066FF;
+  background-color: #ffffff !important;
+  height: 5px;
+
+  .hide-item {
+    opacity: 0;
+    box-shadow: none !important;
+    display: none;
+  }
+}
+
+.drag-item {
+
+  ::shadow {
+    color: snow;
+  }
+
+  background: white;
+  opacity: 1;
+
+  .hide-sub-items {
+    opacity: 0;
+    box-shadow: none !important;
+    display: none;
+  }
+}
+
+.old-item {
+  display: block !important;
+  opacity: 0.2;
+}
+
 .fs-09 {
   font-size: .9rem;
 }
@@ -119,6 +115,10 @@
 
 .fs-07 {
   font-size: .7rem;
+}
+
+.fw-medium {
+  font-weight: 500;
 }
 
 .text-grey {
@@ -150,10 +150,6 @@
     background: -webkit-linear-gradient(to right, rgba(255, 255, 255, 0) 95%, #fff 100%);
 
   }
-}
-
-.fw-medium {
-  font-weight: 500;
 }
 
 .input-group {
@@ -188,6 +184,18 @@
   }
 }
 
+.smooth-rotate {
+  transition: 200ms ease all;
+}
+
+.dropzone {
+  min-height: 20px;
+}
+
+.handle {
+  cursor: move;
+}
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity .18s;
 }
@@ -196,9 +204,8 @@
   opacity: 0;
 }
 
-
 .fade-in-enter-active {
-  transition: opacity .35s;
+  transition: all .3s;
 }
 
 .fade-in-leave-active {
@@ -211,17 +218,4 @@
 
 .fade-in-leave-to {
   opacity: 0;
-}
-
-.list-enter-active, .list-leave-active {
-  transition: all .1s;
-}
-
-.list-enter, .list-leave-to {
-  opacity: 0;
-  transform: translateY(5px);
-}
-
-.smooth-rotate {
-  transition: 200ms ease all;
 }

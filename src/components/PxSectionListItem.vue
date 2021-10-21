@@ -1,21 +1,21 @@
 <template>
   <div>
-    <transition-group name="list">
+    <transition-group name="list" tag="div">
       <PxCategoryItem
         v-if="showCategory"
-        @toggle="isActive = !isActive"
+        @toggle="isToggle = !isToggle"
         :item="category"
         :key="`category_${category.id}`"
         @remove="$emit('remove', category)"
+        :is-no-items="isNoItems"
       />
       <div
-        v-if="isActive"
-        class="ms-4"
+        v-if="isToggle"
+        class="ms-4 hide-sub-items"
         :key="`items_block_${category.id}`"
       >
         <draggable
           :list="items"
-          class="dropzone"
           handle=".handle"
           :group="{ name: 'documents', pull: true }"
           ghost-class="ghost-item"
@@ -24,13 +24,16 @@
           animation="220"
           :remove-clone-on-hide="false"
           @start="onStart"
+          :key="`item_cat_${category.id}`"
         >
-          <PxDocumentListItem
-            v-for="item in computedItems"
-            :item="item"
-            :key="`item_${item.id}`"
-            @remove="onRemove"
-          />
+          <transition-group name="fade" tag="div">
+            <PxDocumentListItem
+              v-for="item in computedItems"
+              :item="item"
+              :key="`item_${item.id}`"
+              @remove="onRemove"
+            />
+          </transition-group>
         </draggable>
       </div>
     </transition-group>
@@ -57,13 +60,13 @@ export default {
     noCategory: {
       type: Boolean,
       default: false
-    },
+    }
   },
-  data() {
+  data () {
     return {
-      isActive: true,
+      isToggle: true,
       items: this.category.items,
-      onDrag: false,
+      onDrag: false
     }
   },
   watch: {
@@ -76,6 +79,9 @@ export default {
     }
   },
   computed: {
+    isNoItems () {
+      return Boolean(this.computedItems.length)
+    },
     showCategory () {
       if (this.noCategory) {
         return false
@@ -97,22 +103,15 @@ export default {
     }
   },
   methods: {
-    onStart({ clone }) {
-      clone.classList.add('draggable')
+    onStart ({ clone }) {
+      clone.classList.add('old-item')
     },
-    onRemove(removeItem) {
+    onRemove (removeItem) {
       const index = this.items.findIndex(item => item.id === removeItem.id)
       if (index !== -1) {
         this.items.splice(index, 1)
       }
-    },
+    }
   }
 }
 </script>
-
-
-<style>
-.dropzone {
-  min-height: 20px;
-}
-</style>

@@ -17,7 +17,7 @@
         </div>
         <div
           v-if="$slots.default"
-          :class="[$slots.icon ? 'ms-2' : '']"
+          :class="{'ms-2': $slots.icon}"
         >
           <slot />
         </div>

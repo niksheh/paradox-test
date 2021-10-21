@@ -1,6 +1,7 @@
 <template>
   <PxListItemLayout
     @remove="$emit('remove', item)"
+    class="hide-item"
   >
     <div class="me-3 fs-08">
       {{ item.name }}
@@ -17,7 +18,7 @@
     >
       Обязательный
     </div>
-    <div class="me-3 fs-07 text-grey d-flex flex-fill ">
+    <div class="me-3 fs-07 text-grey d-flex flex-fill">
       {{ item.desc }}
     </div>
   </PxListItemLayout>

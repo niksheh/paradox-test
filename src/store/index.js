@@ -9,14 +9,5 @@ export default new Vuex.Store({
   state: {
     items: ITEMS,
     categories: CATEGORIES
-  },
-  mutations: {
-    addItem(state, data) {
-      state.items.push(data)
-    }
-  },
-  actions: {
-  },
-  modules: {
   }
 })
